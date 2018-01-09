@@ -44,14 +44,12 @@ const AuthorType = new GraphQLObjectType({
     name: {
       type: GraphQLString,
       resolve: xml => {
-        console.log('xml', xml)
         return xml.GoodreadsResponse.author[0].name[0]
       }
     },
     books: {
       type: new GraphQLList(BookType),
       resolve: (xml, args, context) => {
-        console.log('xml2', xml)
         const ids = xml.GoodreadsResponse.author[0].books[0].book.map(elem => elem.id[0]._)
         return context.bookLoader.loadMany(ids)
       }
